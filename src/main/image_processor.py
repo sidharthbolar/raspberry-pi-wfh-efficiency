@@ -3,7 +3,7 @@ import logging
 import csv
 from datetime import datetime
 from imageai.Detection import ObjectDetection
-from constants import SRC_PATH_INPUT_RB, SRC_PATH_OUTPUT_RB, SRC_PATH_MODELS_RB
+from constants import SRC_PATH_INPUT_RB, SRC_PATH_OUTPUT_RB, SRC_PATH_MODELS_RB,RESULT_HEADERS
 
 
 class ImageProcessor(ObjectDetection):
@@ -23,6 +23,7 @@ class ImageProcessor(ObjectDetection):
         self.input_image_path = input_image_path
         self.output_image_path = output_image_path
         self.result_path = result_path
+        self.CustomObjects(person=True)
         self.setModelTypeAsYOLOv3()
         self.setModelPath(model_path + default_model)
         self.loadModel(detection_speed=default_speed)
@@ -62,8 +63,9 @@ class ImageProcessor(ObjectDetection):
                 current_dict[current_time_string] = '1'
                 logging.info('current status 0 is {}'.format(current_dict))
                 f = open(SRC_PATH_OUTPUT + 'result.csv', 'a')
-                writer = csv.writer(f)
-                writer.writerow(current_dict.items())
+                writer = csv.DictWriter(f, fieldnames=RESULT_HEADERS)
+                for key in current_dict:
+                    writer.writerow({'TIMESTAMP':key,'PRESENCE_BOOLEAN':current_dict[key]})
                 f.close()
 
         except IndexError:
@@ -73,6 +75,7 @@ class ImageProcessor(ObjectDetection):
             current_dict[current_time_string] = '0'
             logging.info('current status 1 is {}'.format(current_dict))
             f = open(SRC_PATH_OUTPUT + 'result.csv', 'a')
-            writer = csv.writer(f)
-            writer.writerow(current_dict.items())
+            writer = csv.DictWriter(f, fieldnames=RESULT_HEADERS)
+            for key in current_dict:
+                writer.writerow({'TIMESTAMP': key, 'PRESENCE_BOOLEAN': current_dict[key]})
             f.close()
