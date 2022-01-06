@@ -1,7 +1,9 @@
 #imports
+import logging
+
 from constants import SRC_PATH_INPUT_RB,CAMERA_SLEEP_TIME
 from picamera import PiCamera
-
+from time import sleep
 
 class PiCameraCustom(PiCamera):
 
@@ -15,8 +17,10 @@ class PiCameraCustom(PiCamera):
         :param SLEEP_TIME:Sleep time between consecutive image maintained in constants file
         :return: Path where image is captured and overwritten in each consecutive run with default name image.jpg
         '''
-        from time import sleep
-        sleep(CAMERA_SLEEP_TIME)
+        logging.info('Image capturing started')
+        self.start_preview()
+        sleep(5)
         self.capture(SRC_PATH_INPUT)
-        self.close()
+        logging.info('Image capturing completed')
+        self.stop_preview()
         return SRC_PATH_INPUT
