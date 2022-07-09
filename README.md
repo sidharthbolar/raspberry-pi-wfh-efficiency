@@ -21,7 +21,9 @@ If I am ‘detected’ at my work station then its assumed I am working :)
 #### Note
 Time spent in attending virtual meetings still counts as work!!!
 
-## Solution:Interface a Pi Cam module with Raspberry PI and if a person is detected(wfh would mean only I am detected)then count that instance has working
+## Solution
+
+* Interface a Pi Cam module with Raspberry PI and if a person is detected(wfh would mean only I am detected)then count that instance has working
 
 1. At EOD, aggregate the count of instances working and the summary results are notified via email
 
